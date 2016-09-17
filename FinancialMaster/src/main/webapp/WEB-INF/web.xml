@@ -45,7 +45,7 @@
     <url-pattern>/ToStockPageServlet</url-pattern>
   </servlet-mapping>
 
-  <!-- get：跳转到个股详细界面，post： -->  
+  <!-- get：跳转到个股详细界面，post：根据不同的id返回不同的推荐列表 -->  
   <servlet>
     <servlet-name>ToStockDetailPageServlet</servlet-name>
     <servlet-class>servlet.stockcheck.StockDetailPageServlet</servlet-class>

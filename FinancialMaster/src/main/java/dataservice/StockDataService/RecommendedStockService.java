@@ -7,7 +7,6 @@ import PO.recommendedStock.ContinuingTrendPO;
 import PO.recommendedStock.PeakPO;
 import PO.recommendedStock.PricePO;
 import PO.recommendedStock.breakthroughPO;
-import web.bl.StrategyHandle.Price;
 
 public interface RecommendedStockService {
 	public ArrayList<PeakPO> getPeakUp();
