@@ -95,7 +95,7 @@
 			<div class="tab_title">
 				<div class="tab_each" style="border-bottom: 2px solid #f8b31d;"
 					onclick="changeTab(0)">连续上涨</div>
-				<div class="tab_each">连续下跌</div>
+				<div class="tab_each" onclick="changeTab(1)">连续下跌</div>
 				<div class="tab_each" onclick="changeTab(2)">创新高</div>
 				<div class="tab_each">创新低</div>
 				<div class="tab_each">持续放量</div>
@@ -116,7 +116,7 @@
 
 				<table id="senfe">
 					<thead>
-						<tr align="center" valign="middle">
+						<tr>
 							<th width="200" bgcolor="#ccc">股票代码</th>
 							<th width="130" bgcolor="#ccc">股票名称</th>
 							<th width="130" bgcolor="#ccc">最新价</th>
@@ -136,8 +136,7 @@
 							for (RiseStockPO stockPO : stockpolist) {
 						%>
 
-						<tr align="center" valign="middle"
-							onmouseover="mouseIn(<%=i + 1%>);"
+						<tr onmouseover="mouseIn(<%=i + 1%>);"
 							onmouseout="mouseOut(<%=i + 1%>);"
 							onclick="mouseClick(<%=i + 1%>,'../ToStockDetailPageServlet')">
 
@@ -237,7 +236,7 @@
 	<script src="../js/jquery.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../js/searchHint.js"></script>
-
+	<script src="../js/stockpage.js"></script>
 	<script type="text/javascript">
 		setPerPage(15);
 	</script>

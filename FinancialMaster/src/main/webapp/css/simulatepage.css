@@ -122,3 +122,64 @@ li {
 .myList {
 	width: 100%;
 }
+
+.listItem {
+	cursor: pointer;
+	width: 100%;
+	background-color: #F9F9F9;
+	height: 88px;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.listName {
+	font-size: 24px;
+	line-height: 26px;
+	color: #4a433b;
+	margin-bottom: 0px;
+}
+
+.listNum {
+	font-size: 16px;
+	color: #bbb;
+}
+
+.buyPrice {
+	font-size: 24px;
+	line-height: 26px;
+	color: #4a433b;
+	margin-bottom: 0px;
+}
+
+.buyNum {
+	padding: 6px 10px;
+	color: #f6b234;
+	font-size: 22px;
+	height: 46px;
+	position: absolute;
+	top: 22px;
+	left: 390px;
+	border: 2px solid #f6b234;
+	border-radius: 4px;
+}
+
+.nowPrice {
+	font-size: 30px;
+	color: #e1543f;
+	margin-bottom: 0px;
+	display: inline-block;
+}
+
+.nowBonus {
+	font-size: 30px;
+	color: #e1543f;
+	display: inline-block;
+}
+
+.list-extend {
+	width: 100%;
+	background-color: #fafafa;
+	height: 300px;
+	margin-top: 15px;
+	display: none;
+}

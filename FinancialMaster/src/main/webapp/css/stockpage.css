@@ -18,6 +18,11 @@ th {
 	font-weight: normal;
 }
 
+tr {
+	text-align: center;
+	valign: middle;
+}
+
 #searchHint {
 	position: absolute;
 	background-color: rgb(235, 235, 235);
@@ -27,7 +32,7 @@ th {
 }
 
 .tab_title {
-	width: 100%; 
+	width: 100%;
 	height: 28px;
 	margin: 0 auto;
 	margin-bottom: -10px;
