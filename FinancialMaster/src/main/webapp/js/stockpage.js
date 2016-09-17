@@ -1,18 +1,49 @@
-var tab = [ "连续上涨", "连续下跌" ]
+var tab = [ "ContinuingTrend", "Peak", "ContinuingQuantity", "Breakthrough",
+		"Price" ];
+var kind = [ "Up", "Down" ];
 
 function changeTab(index) {
 
 	var tabs = document.getElementsByClassName("tab_each");
-	for(var i=0; i<10; i++) {
+	for (var i = 0; i < 10; i++) {
 		tabs[i].style.borderBottom = "";
 	}
 	tabs[index].style.borderBottom = "2px solid #f8b31d";
-	
-	refresh(tab, [ ["sh600000" , 2 ], [ 3, 4 ], [ 5, 6 ] ]);
+
+	$.ajax({
+				type : "post",
+				async : false, // 同步执行
+				url : "../ToStockPageServlet",
+				dataType : "json",
+				data : {
+					"kind" : tab[Math.floor(index / 2)],
+					"kidKind" : kind[index % 2],
+				},
+				success : function(result) {
+					if (result.length > 0) {
+						var list = new Array();
+						for (var i = 0; i < result.length; i++) {
+							list.push(result[i].value);
+						}
+
+						var th = list.splice(0, 1).toString();
+						th = th.split(",");
+						
+						refresh(th, list);
+						
+					} else {
+						document.getElementsByClassName("noHis_tip")[1].style.display = "";
+						document.getElementsByClassName("noHis_tip")[1].innerHTML = "您还没有已创建策略";
+					}
+				},
+				error : function(errorMsg) {
+					alert("对不起，数据请求失败!");
+				}
+			});
 }
 
 function refresh(tablehead, data) {
-
+	
 	var table = document.getElementById("senfe");
 	table.innerHTML = '';
 	table.style.width = "100%";
@@ -53,7 +84,7 @@ function refresh(tablehead, data) {
 }
 
 function gotoDetail(tr) {
-	
+
 	var stockId = tr.getElementsByTagName("td")[0].innerHTML.trim();
 
 	$.ajax({
