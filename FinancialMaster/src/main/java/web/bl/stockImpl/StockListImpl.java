@@ -13,22 +13,23 @@ import data.StockData.RecommendedStock;
 import data.StockData.StockData;
 import dataservice.StockDataService.RecommendedStockService;
 import dataservice.StockDataService.StockDataService;
+import servlet.factory.InitFactoryServlet;
 import web.blservice.stockInfo.StockListInfo;
 
 public class StockListImpl implements StockListInfo {
 	
 	RecommendedStockService recommendedStockService=new RecommendedStock();
-	StockDataService stockDataService=new StockData();	
+		
 	@Override
 	public StockListVO getStockList() {
-		
+		StockDataService stockDataService=new StockData();
 		ArrayList<RiseStockPO> stockPOs=new ArrayList<RiseStockPO>();			
 		StockListVO stockListVO=new StockListVO();		
 		
 		try {
 			ArrayList<RiseStockPO> old_stockPOs=stockDataService.getRiseStock();
 			for (RiseStockPO riseStockPO : old_stockPOs) {
-				if(stockDataService.findById(riseStockPO.getStockId())){
+				if(InitFactoryServlet.isExist(riseStockPO.getStockId())){
 					stockPOs.add(riseStockPO);
 				}										
 			}		
@@ -44,7 +45,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<PeakPO> peakUp=new ArrayList<PeakPO>();
 		ArrayList<PeakPO> old_peakUp=recommendedStockService.getPeakUp();	
 		for (PeakPO peakPO : old_peakUp) {
-			if(stockDataService.findById(peakPO.getStockId())){
+			if(InitFactoryServlet.isExist(peakPO.getStockId())){
 				peakUp.add(peakPO);
 			}	
 		}
@@ -56,7 +57,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<PeakPO> peakDown=new ArrayList<PeakPO>();	
 		ArrayList<PeakPO> old_peakDown=recommendedStockService.getPeakDown();
 		for (PeakPO peakPO : old_peakDown) {
-			if(stockDataService.findById(peakPO.getStockId())){
+			if(InitFactoryServlet.isExist(peakPO.getStockId())){
 				peakDown.add(peakPO);
 			}	
 		}
@@ -68,7 +69,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<ContinuingTrendPO> continuingTrendUp=new ArrayList<ContinuingTrendPO>();	
 		ArrayList<ContinuingTrendPO> old_continuingTrendUp=recommendedStockService.getContinuingTrendUp();
 		for (ContinuingTrendPO continuingTrendPO : old_continuingTrendUp) {
-			if(stockDataService.findById(continuingTrendPO.getStockId())){
+			if(InitFactoryServlet.isExist(continuingTrendPO.getStockId())){
 				continuingTrendUp.add(continuingTrendPO);
 			}	
 		}
@@ -80,7 +81,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<ContinuingTrendPO> continuingTrendDown=new ArrayList<ContinuingTrendPO>();
 		ArrayList<ContinuingTrendPO> old_continuingTrendDown=recommendedStockService.getContinuingTrendDown();
 		for (ContinuingTrendPO continuingTrendPO : old_continuingTrendDown) {
-			if(stockDataService.findById(continuingTrendPO.getStockId())){
+			if(InitFactoryServlet.isExist(continuingTrendPO.getStockId())){
 				continuingTrendDown.add(continuingTrendPO);
 			}	
 		}
@@ -92,7 +93,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<ContinuingQuantityPO> continuingQuantityUp=new ArrayList<ContinuingQuantityPO>();		
 		ArrayList<ContinuingQuantityPO> old_continuingQuantityUp=recommendedStockService.getContinuingQuantityUp();
 		for (ContinuingQuantityPO continuingQuantityPO : old_continuingQuantityUp) {
-			if(stockDataService.findById(continuingQuantityPO.getStockId())){
+			if(InitFactoryServlet.isExist(continuingQuantityPO.getStockId())){
 				continuingQuantityUp.add(continuingQuantityPO);
 			}	
 		}
@@ -104,7 +105,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<ContinuingQuantityPO> continuingQuantityDown=new ArrayList<ContinuingQuantityPO>();	
 		ArrayList<ContinuingQuantityPO> old_continuingQuantityDown=recommendedStockService.getContinuingQuantityDown();
 		for (ContinuingQuantityPO continuingQuantityPO : old_continuingQuantityDown) {
-			if(stockDataService.findById(continuingQuantityPO.getStockId())){
+			if(InitFactoryServlet.isExist(continuingQuantityPO.getStockId())){
 				continuingQuantityDown.add(continuingQuantityPO);
 			}	
 		}
@@ -116,7 +117,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<breakthroughPO> breakthroughUp=new ArrayList<breakthroughPO>();		
 		ArrayList<breakthroughPO> old_breakthroughUp=recommendedStockService.getBreakthroughUp();
 		for (breakthroughPO breakthroughPO : old_breakthroughUp) {
-			if(stockDataService.findById(breakthroughPO.getStockId())){
+			if(InitFactoryServlet.isExist(breakthroughPO.getStockId())){
 				breakthroughUp.add(breakthroughPO);
 			}	
 		}
@@ -128,7 +129,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<breakthroughPO> breakthroughDown=new ArrayList<breakthroughPO>();		
 		ArrayList<breakthroughPO> old_breakthroughDown=recommendedStockService.getBreakthroughDown();
 		for (breakthroughPO breakthroughPO : old_breakthroughDown) {
-			if(stockDataService.findById(breakthroughPO.getStockId())){
+			if(InitFactoryServlet.isExist(breakthroughPO.getStockId())){
 				breakthroughDown.add(breakthroughPO);
 			}	
 		}
@@ -140,7 +141,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<PricePO> priceUp=new ArrayList<PricePO>();	
 		ArrayList<PricePO> old_priceUp=recommendedStockService.getPriceUp();
 		for (PricePO pricePO : old_priceUp) {
-			if(stockDataService.findById(pricePO.getStockId())){
+			if(InitFactoryServlet.isExist(pricePO.getStockId())){
 				priceUp.add(pricePO);
 			}	
 		}
@@ -152,7 +153,7 @@ public class StockListImpl implements StockListInfo {
 		ArrayList<PricePO> priceDown=new ArrayList<PricePO>();
 		ArrayList<PricePO> old_priceDown=recommendedStockService.getPriceDown();
 		for (PricePO pricePO : old_priceDown) {
-			if(stockDataService.findById(pricePO.getStockId())){
+			if(InitFactoryServlet.isExist(pricePO.getStockId())){
 				priceDown.add(pricePO);
 			}	
 		}

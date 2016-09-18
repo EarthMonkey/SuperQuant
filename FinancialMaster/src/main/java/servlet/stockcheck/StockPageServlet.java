@@ -3,6 +3,7 @@ package servlet.stockcheck;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -66,7 +67,6 @@ public class StockPageServlet extends HttpServlet {
 		// Peak ContinuingTrend ContinuingQuantity Breakthrough Price
 		String kid_kind = request.getParameter("kidKind");
 		// Up Down
-		
 		StockListInfo stockListInfo=new StockListImpl();
 		String data = "[";
 
@@ -89,7 +89,7 @@ public class StockPageServlet extends HttpServlet {
 						peakPO.getDate()+"]},";
 			}
 		} else if (kind.equals("ContinuingTrend")) {
-			
+
 			ArrayList<ContinuingTrendPO> continuingTrendPOs=new ArrayList<ContinuingTrendPO>();
 			data+="{'value':['股票代号','股票名','最新价','最高价','最低价',";
 							
@@ -100,6 +100,7 @@ public class StockPageServlet extends HttpServlet {
 				continuingTrendPOs=stockListInfo.getContinuingTrendDown();
 				data+="'连跌天数','持续涨跌幅','累计换手率','所属行业']},";
 			}
+
 			for (ContinuingTrendPO continuingTrendPO : continuingTrendPOs) {
 				data+="{'value':["+continuingTrendPO.getStockId()+","+continuingTrendPO.getStockName()+","+
 						continuingTrendPO.getUptodate()+","+continuingTrendPO.getHigh()+","+
@@ -111,7 +112,7 @@ public class StockPageServlet extends HttpServlet {
 		} else if (kind.equals("ContinuingQuantity")) {
 			ArrayList<ContinuingQuantityPO> continuingQuantityPOs=new ArrayList<ContinuingQuantityPO>();
 			
-			data+="{'value':['股票代号','股票名','涨跌幅','最新价','成交量','基准日成交量'";
+			data+="{'value':['股票代号','股票名','涨跌幅','最新价','成交量','基准日成交量',";
 							
 			if (kid_kind.equals("Up")) {
 				continuingQuantityPOs=stockListInfo.getContinuingQuantityUp();
