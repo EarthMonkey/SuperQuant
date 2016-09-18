@@ -97,13 +97,13 @@
 					onclick="changeTab(0)">连续上涨</div>
 				<div class="tab_each" onclick="changeTab(1)">连续下跌</div>
 				<div class="tab_each" onclick="changeTab(2)">创新高</div>
-				<div class="tab_each">创新低</div>
-				<div class="tab_each">持续放量</div>
-				<div class="tab_each">持续缩量</div>
-				<div class="tab_each">向上突破</div>
-				<div class="tab_each">向下突破</div>
-				<div class="tab_each">量价齐升</div>
-				<div class="tab_each">量价齐跌</div>
+				<div class="tab_each" onclick="changeTab(3)">创新低</div>
+				<div class="tab_each" onclick="changeTab(4)">持续放量</div>
+				<div class="tab_each" onclick="changeTab(5)">持续缩量</div>
+				<div class="tab_each" onclick="changeTab(6)">向上突破</div>
+				<div class="tab_each" onclick="changeTab(7)">向下突破</div>
+				<div class="tab_each" onclick="changeTab(8)">量价齐升</div>
+				<div class="tab_each" onclick="changeTab(9)">量价齐跌</div>
 			</div>
 
 			<!-- 股票列表 -->
