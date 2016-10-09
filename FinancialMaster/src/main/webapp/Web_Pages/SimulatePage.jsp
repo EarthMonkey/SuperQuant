@@ -109,7 +109,8 @@ table td {
 		<!-- /.container-fluid -->
 	</nav>
 
-	<div id="parentDiv" style="width: 80%; margin: 30px auto; margin-top: 90px;">
+	<div id="parentDiv"
+		style="width: 80%; margin: 30px auto; margin-top: 90px;">
 
 		<div class="my_sim_title">
 			<div style="display: inline-block;">
@@ -135,52 +136,11 @@ table td {
 
 		<!-- 引导图/持有股表格 -->
 		<div id="intro_img"
-			style="width: 100%; height: 430px; margin-top: 30px; margin-bottom: 0px; overflow: auto;">
+			style="width: 100%; height: 480px; margin-top: 30px; margin-bottom: 0px;">
 
 
 			<img id="StockListImg" style="width: 100%;"
 				src="../webImage/simulate-introduce.png">
-
-			<div id="myStockList" class="myList"
-				style="display: none;">
-				<div class="listItem">
-					<div
-						style="width: 120px; position: absolute; top: 22px; left: 24px;">
-						<p class="listName">我阙持股</p>
-						<p class="listNum">666666</p>
-					</div>
-					<div
-						style="width: 200px; position: absolute; top: 22px; left: 200px;">
-						<p class="buyPrice">买入:
-							10.00元</p>
-						<p class="buyTime" style="font-size: 16px; color: #bbb;">2016-9-12</p>
-					</div>
-					<div class="buyNum">
-						100股</div>
-
-					<div
-						style="padding: 6px 10px; font-size: 30px; height: 46px; position: absolute; top: 12px; right: 25px;">
-						<p
-							style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">现价</p>
-						<p class="nowPrice">10元</p>
-						<p
-							style="color: #4a433b; font-size: 30px; font-weight: lighter; display: inline-block;">/</p>
-						<p
-							style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">盈利</p>
-						<p class="nowBonus">+1000.00元</p>
-
-
-						<div class="saleButton" onclick="sell()">卖出</div>
-
-					</div>
-
-				</div>
-				<div class="list-extend">
-
-					<div id="aChart" style="width: 90%; height: 90%"></div>
-
-				</div>
-			</div>
 
 			<!-- 持有股表格 -->
 			<table id="strategyTable" rules="rows" style="display: none;">
@@ -200,6 +160,21 @@ table td {
 				</thead>
 			</table>
 		</div>
+	</div>
+
+	<div id="paging_div"
+		style="width: 80%; margin: 10px auto; height: 40px; display: none;">
+
+		<i class="fa fa-chevron-left next_page" onclick="nextPage(1)"></i>
+
+		<%-- 页码 --%>
+		<div id="pages" style="display: inline-block;"></div>
+		
+		<div class="pages_each" style="display: none;">1</div>
+
+		<i class="fa fa-chevron-right next_page" style="margin-left: 10px;"
+			onclick="nextPage(0)"></i>
+
 	</div>
 
 	<div id="new_buy" class="makest_div"
@@ -332,10 +307,11 @@ table td {
 
 			<blockquote class="stname_title">策略累计盈亏</blockquote>
 
-			<div id="STprofits" style="width: 100%; height: 420px; overflow: auto; background-color: #fcfcfc;">
+			<div id="STprofits"
+				style="width: 100%; height: 420px; overflow: auto; background-color: #fcfcfc;">
 
 				<div class="noHis_tip">您还没登录</div>
-				
+
 				<div id="st_copy" class="used_sts" style="display: none">
 					<span>MyStrategy</span> <span style="color: #c4330c; float: right;">+5000元</span>
 				</div>
@@ -357,6 +333,44 @@ table td {
 		<p style="color: white; text-align: center; line-height: 50px;">@Copyright
 			SuperQuant</p>
 	</div>
+	
+	<!-- 持仓股 -->
+	<div id="myStockList" class="myList" style="display: none;">
+				<div class="listItem">
+					<div
+						style="width: 120px; position: absolute; top: 22px; left: 24px;">
+						<p class="listName">我阙持股</p>
+						<p class="listNum">666666</p>
+					</div>
+					<div
+						style="width: 200px; position: absolute; top: 22px; left: 200px;">
+						<p class="buyPrice">买入: 10.00元</p>
+						<p class="buyTime" style="font-size: 16px; color: #bbb;">2016-9-12</p>
+					</div>
+					<div class="buyNum">100股</div>
+
+					<div
+						style="padding: 6px 10px; font-size: 30px; height: 46px; position: absolute; top: 12px; right: 25px;">
+						<p
+							style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">现价</p>
+						<p class="nowPrice">10元</p>
+						<p
+							style="color: #4a433b; font-size: 30px; font-weight: lighter; display: inline-block;">/</p>
+						<p
+							style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">盈利</p>
+						<p class="nowBonus">+1000.00元</p>
+
+
+						<div class="saleButton" onclick="sell()">卖出</div>
+
+					</div>
+
+				</div>
+
+				<div class="list-extend" style="margin-bottom: 10px;">
+					<div class="aChart" style="width: 970px; height: 280px;"></div>
+				</div>
+			</div>
 
 	<!-- login and register -->
 	<!-- Modal -->
@@ -495,6 +509,7 @@ table td {
 	<script src="../js/simulatepage.js"></script>
 	<script src="../js/toaster.js"></script>
 	<script type="text/javascript" src="../js/strategyhint.js"></script>
+	<script src="../jschart/SimulationLineChart.js"></script>
 	<script>
 		initHis();
 		initStocks();

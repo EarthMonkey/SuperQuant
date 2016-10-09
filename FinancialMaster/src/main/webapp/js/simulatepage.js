@@ -5,6 +5,9 @@ var iBase = {
 	}
 };
 
+var currentPage = 1; // 当前页数
+var allPages; // 所有持仓
+
 // 关闭块
 function closeST(elem_id) {
 
@@ -316,7 +319,8 @@ function initHis() {
 	if (userId != "null") {
 		document.getElementsByClassName("noHis_tip")[0].style.display = "none";
 
-		$.ajax({
+		$
+				.ajax({
 					type : "get",
 					async : false, // 同步执行
 					url : "../SimulationRecord",
@@ -324,6 +328,7 @@ function initHis() {
 					success : function(result) {
 
 						if (result.length > 0) {
+
 							for (var i = 0; i < result.length; i++) {
 
 								var div = document.createElement("div");
@@ -350,7 +355,7 @@ function initHis() {
 								spans[0].innerHTML = result[i].stockName;
 								spans[1].innerHTML = result[i].stockID;
 								spans[2].innerHTML = BorS + result[i].money;
-								if(BorS == "-") {
+								if (BorS == "-") {
 									spans[2].style.color = "#4A433B";
 								}
 								spans[3].innerHTML = result[i].time;
@@ -379,47 +384,141 @@ function initStocks() {
 	if (userId != "null") {
 
 		$.ajax({
-					type : "get",
-					async : false, // 同步执行
-					url : "../SimulationStock",
-					dataType : "json",
-					success : function(result) {
-						if (result.length > 0) {
-							$("#StockListImg").hide();
-							for (var i = 0; i < result.length; i++) {
-								var div = document.createElement("div");
-								div.setAttribute("class", "myList");
-								div.innerHTML = document
-										.getElementById("myStockList").innerHTML;
-								div.getElementsByClassName("listName")[0].innerHTML = result[i].stockName;
-								div.getElementsByClassName("listNum")[0].innerHTML = result[i].stockID;
-								div.getElementsByClassName("buyPrice")[0].innerHTML = "买入："
-										+ result[i].price;
-								div.getElementsByClassName("buyTime")[0].innerHTML = result[i].time;
-								div.getElementsByClassName("buyNum")[0].innerHTML = result[i].number
-										+ "股";
-								div.getElementsByClassName("nowPrice")[0].innerHTML = result[i].now;
-								div.getElementsByClassName("nowBonus")[0].innerHTML = result[i].profitability;
+			type : "get",
+			async : false, // 同步执行
+			url : "../SimulationStock",
+			dataType : "json",
+			success : function(result) {
+				if (result.length > 0) {
+					$("#StockListImg").hide();
 
-								document.getElementById("intro_img")
-										.appendChild(div);
+					allPages = result;
+
+					if (result.length > 5) {
+						$("#paging_div").show();
+						var pages = Math.ceil(result.length / 5);
+						for (var j = 0; j < pages; j++) {
+							var div = document.createElement("div");
+							div.innerHTML = j + 1;
+
+							if (j == 0) {
+								div.setAttribute("class", "pages_each active");
+							} else {
+								div.setAttribute("class", "pages_each");
 							}
+
+							div.onclick = function() {
+								gotoPage_node(this);
+							};
+
+							document.getElementById("pages").appendChild(div);
+
+							gotoPage(1);
 						}
-					},
-					error : function(errorMsg) {
-						alert("不好意思，请求数据失败啦!");
+					} else {
+						for (var i = 0; i < result.length; i++) {
+							setStocks(result[i]);
+						}
 					}
-				});
+				}
+			},
+			error : function(errorMsg) {
+				alert("不好意思，请求数据失败啦!");
+			}
+		});
 	}
 }
 
-function sell() {
+function setStocks(result) {
+
+	var parent = document.getElementById("intro_img");
+
+	var div = document.createElement("div");
+	div.setAttribute("class", "myList");
+	div.innerHTML = document.getElementById("myStockList").innerHTML;
+	div.getElementsByClassName("listName")[0].innerHTML = result.stockName;
+	div.getElementsByClassName("listNum")[0].innerHTML = result.stockID;
+	div.getElementsByClassName("buyPrice")[0].innerHTML = "买入：" + result.price;
+	div.getElementsByClassName("buyTime")[0].innerHTML = result.time;
+	div.getElementsByClassName("buyNum")[0].innerHTML = result.number + "股";
+	div.getElementsByClassName("nowPrice")[0].innerHTML = result.now;
+	div.getElementsByClassName("nowBonus")[0].innerHTML = result.profitability
+			.toFixed(2);
+	
+	var sale = div.getElementsByClassName("saleButton")[0];
+	sale.onclick = function () {
+		sell(result.id);
+	};
+
+	parent.appendChild(div);
+
+	getLinechart_sim(result.id, div.getElementsByClassName("aChart")[0]);
+
+}
+
+/* 分页 */
+function gotoPage_node(node) {
+	var index = node.innerHTML.trim();
+	gotoPage(index);
+}
+
+// 0，下一页；1，上一页
+function nextPage(symbol) {
+	var nums = document.getElementById("paging_div").getElementsByClassName(
+			"pages_each").length;
+	if (symbol == 0) {
+		if (currentPage < nums) {
+			gotoPage(currentPage + 1);
+		}
+	} else {
+		if (currentPage - 1 > 0) {
+			gotoPage(currentPage - 1);
+		}
+	}
+}
+
+function gotoPage(index) {
+
+	var pagelbls = document.getElementById("pages").getElementsByClassName(
+			"pages_each");
+	pagelbls[currentPage - 1].setAttribute("class", "pages_each");
+	pagelbls[index - 1].setAttribute("class", "pages_each active");
+
+	currentPage = parseInt(index);
+
+	var parent = document.getElementById("intro_img");
+	var list = parent.getElementsByClassName("myList");
+	var len = list.length;
+
+	for (var n = len - 1; n >= 0; n--) {
+		parent.removeChild(list[n]);
+	}
+
+	// (index-1) * 5 , index * 5 <= result.length
+	if (index * 5 <= allPages.length) {
+
+		for (var i = (index - 1) * 5; i < index * 5; i++) {
+			setStocks(allPages[i]);
+		}
+
+	} else {
+
+		for (var i = (index - 1) * 5; i < allPages.length; i++) {
+			setStocks(allPages[i]);
+		}
+
+	}
+
+}
+
+function sell(id) {
+	alert(id)
 	$.ajax({
 		type : "post",
 		async : false, // 同步执行
 		url : "../SimulationStock",
 		data : {
-			"Order" : "Buy",
+			"Order" : "Sell",
 			"id" : id,
 		},
 		dataType : "json",
@@ -428,34 +527,34 @@ function sell() {
 			window.reload();
 		},
 		error : function(errorMsg) {
-			alert("不好意思，请求数据失败啦!");
+			alert("卖出失败，请稍后再试");
 		}
 	});
 }
 
-
 function initSTprofits() {
-	
+
 	var userId = document.getElementById("storage").innerHTML.trim();
 	if (userId != "null") {
 		document.getElementsByClassName("noHis_tip")[1].style.display = "none";
+
+		$
+				.ajax({
+					type : "get",
+					async : false, // 同步执行
+					url : "../SimulationStrategy",
+					dataType : "json",
+					success : function(result) {
+						if (result.length > 0) {
+
+						} else {
+							document.getElementsByClassName("noHis_tip")[1].style.display = "";
+							document.getElementsByClassName("noHis_tip")[1].innerHTML = "您还没有已创建策略";
+						}
+					},
+					error : function(errorMsg) {
+						alert("对不起，策略累计盈亏数据请求失败!");
+					}
+				});
 	}
-		
-	$.ajax({
-		type : "get",
-		async : false, // 同步执行
-		url : "../SimulationStrategy",
-		dataType : "json",
-		success : function(result) {
-			if (result.length > 0) {
-				
-			} else {
-				document.getElementsByClassName("noHis_tip")[1].style.display = "";
-				document.getElementsByClassName("noHis_tip")[1].innerHTML = "您还没有已创建策略";
-			}
-		},
-		error : function(errorMsg) {
-			alert("对不起，策略累计盈亏数据请求失败!");
-		}
-	});
 }

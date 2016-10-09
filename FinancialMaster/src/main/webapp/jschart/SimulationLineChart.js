@@ -29,7 +29,7 @@ function getLinechart_sim(id, div) {
 			}
 		},
 		error : function(errorMsg) {
-			alert("不好意思，请求数据失败啦!");
+//			alert("收益折线图加载失败");
 			myChart.hideLoading();
 		}
 	})

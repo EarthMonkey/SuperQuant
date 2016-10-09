@@ -183,3 +183,40 @@ li {
 	margin-top: 15px;
 	display: none;
 }
+
+.next_page {
+	margin-top: 0px;
+    margin-right: 10px;
+    color: #f18937;
+    cursor: pointer;
+    display: inline-block;
+    opacity: 0.7;
+}
+
+.next_page:hover {
+	opacity: 1;
+}
+
+.pages_each {
+	width: 22px;
+    height: 22x;
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;
+    border: 1px solid #ddd;
+    color: #f18937;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.pages_each:hover {
+	color: #fff;
+	background-color: #f18937;
+}
+
+.active {
+	color: #fff;
+	background-color: #f18937;
+}
