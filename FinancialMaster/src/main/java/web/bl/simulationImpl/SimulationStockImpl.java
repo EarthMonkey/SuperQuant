@@ -74,10 +74,11 @@ public class SimulationStockImpl implements SimulationStockInfo {
 		String endTime = sdf.format(calendar.getTime());
 		
 		StockDataService stockDataService=new StockData();
+		String[][] result=new String[0][0];
 		try {
 			List<TradeRecord> records=stockDataService.getStockRecord(id, startTime, endTime);
 			int size=records.size();
-			String[][] result=new String[size][2];
+			result=new String[size][2];
 			int index=size-1;
 			for (TradeRecord tradeRecord : records) {
 				result[index][0]=tradeRecord.getId().getDate();
@@ -88,7 +89,7 @@ public class SimulationStockImpl implements SimulationStockInfo {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return result;
 	}
 
 	@Override
