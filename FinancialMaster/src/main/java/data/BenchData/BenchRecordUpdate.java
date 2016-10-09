@@ -2,6 +2,7 @@ package data.BenchData;
 
 import java.io.IOException;
 
+import org.hibernate.internal.StaticFilterAliasGenerator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -21,6 +22,12 @@ public class BenchRecordUpdate implements Runnable{
 		thread.start();
 	}
 
+	public static String getStatus(){
+		if(benchCurrentDataPO[2]==null)
+			return "ÎÞÊý¾Ý";
+		return benchCurrentDataPO[2].getStatus();
+	}
+	
 	public benchCurrentDataPO getLastestRecord(String benchId){
 		try {
 			Document document=Jsoup.connect(benchRecentDataURL[0]+benchId+benchRecentDataURL[1]).get();

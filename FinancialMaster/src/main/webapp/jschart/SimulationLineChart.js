@@ -4,10 +4,9 @@
 
 
 
-function getLinechart(id,divID) {
+function getLinechart_sim(id, div) {
 	
-	var SimulationLineChart = echarts.init(document
-			.getElementById(divID));
+	var SimulationLineChart = echarts.init(div);
 
 	var dates = [];
 

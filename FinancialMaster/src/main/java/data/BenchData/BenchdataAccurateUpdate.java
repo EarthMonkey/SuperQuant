@@ -1,24 +1,19 @@
 package data.BenchData;
 
-import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import java.util.Date;
 
 import DAO.DAOimpl.BenchdataAccurateDaoImpl;
 import DAO.dao.BenchdataAccurateDao;
 import DAO.pojo.BenchdataAccurate;
 import DAO.pojo.BenchdataAccurateId;
+import PO.benchCurrentDataPO;
 
 public class BenchdataAccurateUpdate implements Runnable{
-	public static final String[] benchRecentDataURL={
-			"http://gupiao.baidu.com/stock/",
-			".html?from=aladingpc"
-			};
 	public static final String[] BenchId={"sh000001","sz399001","sh000300"};
+	SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
 	BenchdataAccurateDao benchdataAccurateDao;
 	
 	public BenchdataAccurateUpdate(){
@@ -29,19 +24,15 @@ public class BenchdataAccurateUpdate implements Runnable{
 	
 	public void persist(){
 		for (int i=0;i<3;i++) {
-			try {
-				Document document=Jsoup.connect(benchRecentDataURL[0]+BenchId[i]+benchRecentDataURL[1]).get();
-				String[] temp=document.select("div[class=price s-down ]").text().split(" ");
-				BenchdataAccurate benchdataAccurate=new BenchdataAccurate();
-				BenchdataAccurateId benchdataAccurateId=new BenchdataAccurateId();
-				benchdataAccurateId.setBenchId(BenchId[i]);
-				benchdataAccurateId.setDate(Calendar.getInstance().getTime());
-				benchdataAccurate.setId(benchdataAccurateId);
-				benchdataAccurate.setPrice(Double.parseDouble(temp[0]));
-				benchdataAccurateDao.persist(benchdataAccurate);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			
+			benchCurrentDataPO bench=BenchRecordUpdate.getBenchCurrentDataPO(BenchId[i]);
+			BenchdataAccurate benchdataAccurate=new BenchdataAccurate();
+			BenchdataAccurateId benchdataAccurateId=new BenchdataAccurateId();
+			benchdataAccurateId.setBenchId(BenchId[i]);
+			benchdataAccurateId.setDate(new Date());
+			benchdataAccurate.setId(benchdataAccurateId);
+			benchdataAccurate.setPrice(bench.getNow());
+			benchdataAccurateDao.persist(benchdataAccurate);
 		}
 	}
 	
@@ -49,13 +40,31 @@ public class BenchdataAccurateUpdate implements Runnable{
 	public void run() {
 		while (true) {
 			try {
+
 				Thread.sleep(10000);
-				persist();
+				if(BenchRecordUpdate.getStatus().equals("½»Ò×ÖÐ")){
+					persist();
+				}				
 				Calendar calendar=Calendar.getInstance();
-				int hour=calendar.get(Calendar.HOUR);
+				int hour=calendar.get(Calendar.HOUR_OF_DAY);
 				int minute=calendar.get(Calendar.MINUTE);
 				if(hour==3&&minute==0){
 					benchdataAccurateDao.clean();
+					for (int i=0;i<3;i++) {						
+						benchCurrentDataPO bench=BenchRecordUpdate.getBenchCurrentDataPO(BenchId[i]);
+						BenchdataAccurate benchdataAccurate=new BenchdataAccurate();
+						BenchdataAccurateId benchdataAccurateId=new BenchdataAccurateId();
+						benchdataAccurateId.setBenchId(BenchId[i]);
+						try {
+							benchdataAccurateId.setDate(simpleDateFormat.parse(bench.getTime()));
+						} catch (ParseException e) {
+                            benchdataAccurateId.setDate(new Date());
+						}
+						benchdataAccurate.setId(benchdataAccurateId);
+						benchdataAccurate.setPrice(bench.getNow());
+						benchdataAccurateDao.persist(benchdataAccurate);
+					}
+					Thread.sleep(100000);
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
