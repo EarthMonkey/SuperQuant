@@ -82,9 +82,10 @@ public class UpToDateStocksUpdate implements Runnable{
 	}
 	@Override
 	public void run() {
+		
 		while (true) {
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(100000);
 				for(int i=0;i<exchanges.length;i++){
 					try {
 						arrayLists[i]=getToDateStockPOs(exchanges[i]);
