@@ -457,7 +457,6 @@ function initStocks() {
 
 					// 累计盈利
 					for (var i = 0; i < result.length; i++) {
-						alert(result[i].sum)
 						stockprofits += result[i].sum;
 					}
 				}
@@ -552,7 +551,6 @@ function gotoPage(index) {
 }
 
 function sell(id) {
-	alert(id)
 	$.ajax({
 		type : "post",
 		async : false, // 同步执行
