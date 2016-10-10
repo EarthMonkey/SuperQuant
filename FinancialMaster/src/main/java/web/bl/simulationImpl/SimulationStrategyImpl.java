@@ -4,13 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import DAO.pojo.SimulationProfit;
 import DAO.pojo.Simulationcommission;
+import ENUM.Deal_enum;
 import ENUM.ManageState;
 import PO.UpToDateStockPO;
 import PO.profitPO;
 import VO.SimulationStrategyVO;
 import data.SimulationData.SimulationCommissionData;
+import data.SimulationData.SimulationProfitData;
 import dataservice.SimulationDataService.SimulationCommissionDataService;
+import dataservice.SimulationDataService.SimulationProfitDataService;
 import web.bl.StrategyHandle.StrategyHandle;
 import web.bl.stockImpl.StockImpl;
 import web.blservice.StrategyHandleService.StrategyHandleService;
@@ -19,6 +23,8 @@ import web.blservice.stockInfo.StockUpdateInfo;
 
 public class SimulationStrategyImpl implements SimulationStrategyInfo{
 
+	SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+    StrategyHandleService strategyHandleService=new StrategyHandle();
 	@Override
 	public int addSimulationStrategy(SimulationStrategyVO simulationStrategyVO) {
 		SimulationCommissionDataService simulationCommissionDataService=
@@ -35,7 +41,24 @@ public class SimulationStrategyImpl implements SimulationStrategyInfo{
 	public ManageState deleteSimulationStrategy(String id) {
 		SimulationCommissionDataService simulationCommissionDataService=
 				new SimulationCommissionData();
-		return simulationCommissionDataService.remove(Integer.parseInt(id))?ManageState.Succeed:ManageState.Fail;
+		
+		int code=Integer.parseInt(id);
+		
+		Simulationcommission simulation=simulationCommissionDataService.findById(code);
+		
+		SimulationProfitDataService simulationProfitDataService=new SimulationProfitData();
+		SimulationProfit simulationProfit=new SimulationProfit();
+		simulationProfit.setUserId(simulation.getUserId());
+		simulationProfit.setStockId(simulation.getStockId());
+		simulationProfit.setOperation(Deal_enum.ST_Sell.toString());
+//		simulationProfit.setState(state);
+		simulationProfit.setDate(new Date());
+		simulationProfit.setProfit(getResult(simulation .getUserId(),simulation.getStockId(),
+				simulation.getStrategyName(),simulation.getTime()));
+		simulationProfitDataService.persist(simulationProfit);
+		
+		
+		return simulationCommissionDataService.remove(code)?ManageState.Succeed:ManageState.Fail;
 	}
 
 	@Override
@@ -44,10 +67,10 @@ public class SimulationStrategyImpl implements SimulationStrategyInfo{
 				new SimulationCommissionData();
 		ArrayList<Simulationcommission> list=simulationCommissionDataService.getAllSimulationcommissions(userID);
 		ArrayList<SimulationStrategyVO> result=new ArrayList<SimulationStrategyVO>();
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+	
         Date date=new Date();
         String endTime=simpleDateFormat.format(date);
-        StrategyHandleService strategyHandleService=new StrategyHandle();
+
         StockUpdateInfo stockUpdateInfo=new StockImpl();        
         
 		for (Simulationcommission s : list) {
@@ -69,10 +92,15 @@ public class SimulationStrategyImpl implements SimulationStrategyInfo{
 		return result;
 	}
 
-	@Override
-	public double getResult(String id) {
-		// TODO Auto-generated method stub
-		return 0;
+//	@Override
+	public double getResult(String uid,String sid,String sname,Date startTime) {
+		
+		String sTime=simpleDateFormat.format(startTime);
+		
+		Date date=new Date();
+	    String eTime=simpleDateFormat.format(date);
+	    profitPO po=strategyHandleService.getProfit(uid,sid, sname, sTime, eTime);
+		return po.getProfit();
 	}
 
 	@Override

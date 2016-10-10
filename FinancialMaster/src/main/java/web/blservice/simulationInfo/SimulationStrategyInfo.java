@@ -16,8 +16,8 @@ public interface SimulationStrategyInfo {
 	//得到第三张表所有内容
 	public ArrayList<SimulationStrategyVO> getAllSimulationStrategy(String userID);
 	
-	//计算一条回测的策略的盈亏情况
-	public double getResult(String id);
+//	//计算一条回测的策略的盈亏情况
+//	public double getResult(String id);
 	
 	//得到一条回测策略的详细盈亏情况
 	public String[][] getResultDetail(String id);
