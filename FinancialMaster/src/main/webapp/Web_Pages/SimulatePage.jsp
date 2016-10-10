@@ -136,7 +136,7 @@ table td {
 
 		<!-- 引导图/持有股表格 -->
 		<div id="intro_img"
-			style="width: 100%; height: 480px; margin-top: 30px; margin-bottom: 0px;">
+			style="width: 100%; margin-top: 30px; margin-bottom: 0px;">
 
 
 			<img id="StockListImg" style="width: 100%;"
@@ -169,7 +169,7 @@ table td {
 
 		<%-- 页码 --%>
 		<div id="pages" style="display: inline-block;"></div>
-		
+
 		<div class="pages_each" style="display: none;">1</div>
 
 		<i class="fa fa-chevron-right next_page" style="margin-left: 10px;"
@@ -333,44 +333,43 @@ table td {
 		<p style="color: white; text-align: center; line-height: 50px;">@Copyright
 			SuperQuant</p>
 	</div>
-	
+
 	<!-- 持仓股 -->
 	<div id="myStockList" class="myList" style="display: none;">
-				<div class="listItem">
-					<div
-						style="width: 120px; position: absolute; top: 22px; left: 24px;">
-						<p class="listName">我阙持股</p>
-						<p class="listNum">666666</p>
-					</div>
-					<div
-						style="width: 200px; position: absolute; top: 22px; left: 200px;">
-						<p class="buyPrice">买入: 10.00元</p>
-						<p class="buyTime" style="font-size: 16px; color: #bbb;">2016-9-12</p>
-					</div>
-					<div class="buyNum">100股</div>
-
-					<div
-						style="padding: 6px 10px; font-size: 30px; height: 46px; position: absolute; top: 12px; right: 25px;">
-						<p
-							style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">现价</p>
-						<p class="nowPrice">10元</p>
-						<p
-							style="color: #4a433b; font-size: 30px; font-weight: lighter; display: inline-block;">/</p>
-						<p
-							style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">盈利</p>
-						<p class="nowBonus">+1000.00元</p>
-
-
-						<div class="saleButton" onclick="sell()">卖出</div>
-
-					</div>
-
-				</div>
-
-				<div class="list-extend" style="margin-bottom: 10px;">
-					<div class="aChart" style="width: 970px; height: 280px;"></div>
-				</div>
+		<div class="listItem">
+			<div style="width: 120px; position: absolute; top: 22px; left: 24px;">
+				<p class="listName">我阙持股</p>
+				<p class="listNum">666666</p>
 			</div>
+			<div
+				style="width: 200px; position: absolute; top: 22px; left: 200px;">
+				<p class="buyPrice">买入: 10.00元</p>
+				<p class="buyTime" style="font-size: 16px; color: #bbb;">2016-9-12</p>
+			</div>
+			<div class="buyNum">100股</div>
+
+			<div
+				style="padding: 6px 10px; font-size: 30px; height: 46px; position: absolute; top: 12px; right: 25px;">
+				<p
+					style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">现价</p>
+				<p class="nowPrice">10元</p>
+				<p
+					style="color: #4a433b; font-size: 30px; font-weight: lighter; display: inline-block;">/</p>
+				<p
+					style="font-size: 14px; color: #bbb; margin-bottom: 0px; display: inline-block;">盈利</p>
+				<p class="nowBonus">+1000.00元</p>
+
+
+				<div class="saleButton" onclick="sell()">卖出</div>
+
+			</div>
+
+		</div>
+
+		<div class="list-extend" style="margin-bottom: 10px;">
+			<div class="aChart" style="width: 970px; height: 280px;"></div>
+		</div>
+	</div>
 
 	<!-- login and register -->
 	<!-- Modal -->
@@ -517,6 +516,8 @@ table td {
 		$(".myList").on("click", ".listItem", function() {
 			$(this).siblings(".list-extend").slideToggle();
 		});
+		
+		setProfit();
 	</script>
 
 </body>

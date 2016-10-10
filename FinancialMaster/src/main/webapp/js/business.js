@@ -1,9 +1,9 @@
-var nowPage = null;
-var all = null;
+var nowPage = 1;
+var all;
 var listLength;
 
 $(document).ready(function() {
-	listLength = document.getElementsById("listLength").innerHTML;
+	listLength = document.getElementById("listLength").innerHTML;
 	nowPage = 1;
 	all = document.getElementsByClassName("pagination")[0].children;
 	disappear();
@@ -18,7 +18,7 @@ function disappear() {
 
 function appear(num) {
 	for (var i = num * 11; i < (num + 1) * 11; i++) {
-		document.getElementsByClassName("business-list")[i].style.display = "block";
+		document.getElementsByClassName("business-list")[i].style.display = "";
 	}
 }
 
