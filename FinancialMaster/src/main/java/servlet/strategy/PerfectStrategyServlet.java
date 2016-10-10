@@ -44,6 +44,13 @@ public class PerfectStrategyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		perfectStrategyService psService=new PerfectStrategyHandle();
 		String stockId[]=request.getParameterValues("stockId[]");
 		String startTime[]=request.getParameterValues("startTime[]");
@@ -63,13 +70,6 @@ public class PerfectStrategyServlet extends HttpServlet {
 		out.println(json);
 		out.flush();
 		out.close();
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-
 	}
 
 }

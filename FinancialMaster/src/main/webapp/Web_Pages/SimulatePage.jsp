@@ -313,7 +313,8 @@ table td {
 				<div class="noHis_tip">您还没登录</div>
 
 				<div id="st_copy" class="used_sts" style="display: none">
-					<span>MyStrategy</span> <span style="color: #c4330c; float: right;">+5000元</span>
+					<div class="terminal">终止模拟</div>
+					<span>MyStrategy</span> <span style="color: #c4330c; float: right; margin-right: 20px;">+5000元</span>
 				</div>
 
 				<div class="used_sts" style="display: none">
@@ -516,7 +517,7 @@ table td {
 		$(".myList").on("click", ".listItem", function() {
 			$(this).siblings(".list-extend").slideToggle();
 		});
-		
+
 		setProfit();
 	</script>
 

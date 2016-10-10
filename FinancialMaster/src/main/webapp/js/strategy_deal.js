@@ -153,6 +153,8 @@ function addStrategy() {
 	resetAll();
 	runST();
 
+	setMax();
+
 	var addbtn = document.getElementById("addST");
 	if ((addbtn.innerHTML).trim() == "完成修改") {
 		addbtn.innerHTML = "添加股票项";
@@ -160,6 +162,41 @@ function addStrategy() {
 	}
 
 	isSaved = 0;
+}
+
+function setMax() {
+
+	var stockIds = new Array();
+	var moneyeach = new Array();
+	var timestart = new Array();
+	var timeend = new Array();
+
+	for (var i = 0; i < perST.length; i++) {
+		stockIds[i] = perST[i][0];
+		moneyeach[i] = perST[i][1];
+		timestart[i] = perST[i][2];
+		timeend[i] = perST[i][3];
+	}
+	
+	$.ajax({
+		type : "post",
+		async : false, // 同步执行
+		url : "../PerfectStrategy",
+		data : {
+			'stockId' : stockIds,
+			"startTime": timestart,
+			"endTime": timeend,
+			"cost": moneyeach,
+		},
+		dataType : "json",
+		success : function(result) {
+			document.getElementById("max_benefit").innerHTML = result[0].profit.toFixed(2);
+		},
+		error : function(errorMsg) {
+			alert("完美利益计算失败");
+		}
+	});
+
 }
 
 // 策略文字化; 0买入，1卖出
@@ -318,7 +355,7 @@ function saveST() {
 		success : function(result) {
 			if (result[0].SaveResult == "Succeed") {
 				slidein(0, "保存成功");
-				
+
 				setTimeout("window.location.reload()", 1800);
 			} else if (result[0].SaveResult == "Unlogin") {
 				slidein(2, "您还没登录");
@@ -501,12 +538,14 @@ function runST() {
 			"SoldList" : sold
 		},
 		dataType : "json",
-		success : function() {
+		success : function(result) {
 			var div = document.getElementById("strategyLineChart");
 			if (div.style.display == "none") {
 				div.style.display = "block";
 			}
 			getLinechart("../RunStrategy", 'strategyLineChart');
+			
+			document.getElementById("real_benefit").innerHTML = result[0].profit.toFixed(2);
 		},
 		error : function() {
 			slidein(1, "策略模拟失败");
@@ -523,7 +562,7 @@ function closeST() {
 		isSaved = 1;
 		return;
 	}
-	
+
 	document.getElementById("launchST_before").style.display = "";
 
 	var elem = document.getElementById("makest");
@@ -540,8 +579,8 @@ function closeST() {
 			elem.style.display = 'none';
 		}
 	})();
-	
-	// 重置	
+
+	// 重置
 	resetAll();
 	perST = new Array();
 	count = 0;
@@ -550,12 +589,12 @@ function closeST() {
 	document.getElementById("add_before").style.display = "";
 	document.getElementById("add_after").style.display = "none";
 	document.getElementById("myST").style.display = "none";
-	
+
 	var table = document.getElementById("strategyTable");
 	var trs = table.getElementsByTagName("tr");
 	var rowslen = trs.length - 1;
-	if(rowslen > 0) {
-		for(var m=rowslen; m>0; m--) {
+	if (rowslen > 0) {
+		for (var m = rowslen; m > 0; m--) {
 			table.deleteRow(m);
 			table.removeChild(trs[m]);
 		}
@@ -581,7 +620,7 @@ function launchST() {
 			setTimeout(arguments.callee, speed)
 		}
 	})();
-	
+
 	$("body,html").animate({
 		scrollTop : 20
 	}, 500);
@@ -675,8 +714,9 @@ function initSTlist() {
 function delmyST(chnode) {
 
 	var childnode = chnode.parentNode.parentNode;
-	var stName = childnode.getElementsByTagName("blockquote")[0].innerHTML.trim();
-	
+	var stName = childnode.getElementsByTagName("blockquote")[0].innerHTML
+			.trim();
+
 	$.ajax({
 		type : "post",
 		async : false, // 同步执行
@@ -694,19 +734,19 @@ function delmyST(chnode) {
 			alert("不好意思，请求数据失败啦!");
 		}
 	});
-	
+
 	var parentdiv = document.getElementById("launchST_before");
 	parentdiv.removeChild(childnode);
-	
+
 }
 
 // 修改大的策略
 function modmyST(pos) {
-	
+
 	var stname = document.getElementsByClassName("myst_copy")[pos]
-					.getElementsByTagName("blockquote")[0].innerHTML.trim();
-	
- 	// 获取策略信息
+			.getElementsByTagName("blockquote")[0].innerHTML.trim();
+
+	// 获取策略信息
 	var totalcost;
 	var buylist;
 	var soldlist;
@@ -720,51 +760,49 @@ function modmyST(pos) {
 		},
 		dataType : "json",
 		success : function(result) {
-			totalcost = result[0].totalcost,
-			buylist = result[0].BuyList,
-			soldlist = result[0].SoldList,
-			stlist = result[0].perST
-			
+			totalcost = result[0].totalcost, buylist = result[0].BuyList,
+					soldlist = result[0].SoldList, stlist = result[0].perST
+
 			launchST();
 		},
 		error : function(errorMsg) {
 			alert("不好意思，请求数据失败啦!");
 		}
 	});
-	
+
 	document.getElementById("strategyname").value = stname;
-	document.getElementById("totalcost").value  = totalcost;
+	document.getElementById("totalcost").value = totalcost;
 	setName();
-		
+
 	var buyList = buylist.toString().split(";");
 	var stList = stlist.toString().split(";");
 	var soldList = soldlist.toString().split(";");
 
 	for (var i = 0; i < stList.length - 1; i++) {
-		
+
 		var eachst = stList[i].split(",");
-		for(var j=0; j<eachst.length - 1; j++) {
+		for (var j = 0; j < eachst.length - 1; j++) {
 			document.getElementById(getID[j]).value = eachst[j];
 		}
 		document.getElementById(getID[getID.length - 1]).value = eachst[eachst.length - 1];
-		
+
 		buytemp = buyList[i].split(",");
 		soldtemp = soldList[i].split(",");
-		
-		for(var k=0; k<comboxs.length; k++) {
-			if(buytemp[k*2] == 0 && buytemp[k*2 + 1] == 0) {
-				buytemp[k*2] = "";
-				buytemp[k*2 + 1] = "";
+
+		for (var k = 0; k < comboxs.length; k++) {
+			if (buytemp[k * 2] == 0 && buytemp[k * 2 + 1] == 0) {
+				buytemp[k * 2] = "";
+				buytemp[k * 2 + 1] = "";
 			}
-			
-			if(soldtemp[k*2] == 0 && soldtemp[k*2 + 1] == 0) {
-				soldtemp[k*2] = "";
-				soldtemp[k*2 + 1] = "";
+
+			if (soldtemp[k * 2] == 0 && soldtemp[k * 2 + 1] == 0) {
+				soldtemp[k * 2] = "";
+				soldtemp[k * 2 + 1] = "";
 			}
 		}
-		
+
 		// 删除原有策略
-	 	$.ajax({
+		$.ajax({
 			type : "post",
 			async : false, // 同步执行
 			url : "../ManageMyStrategy",
@@ -778,19 +816,20 @@ function modmyST(pos) {
 				alert("不好意思，请求数据失败啦!");
 			}
 		});
-	 	
+
 		addStrategy();
 	}
-	
+
 }
 
 // 模拟大的策略
 function runmyST(pos) {
-	
+
 	var stName = document.getElementsByClassName("myst_copy")[pos]
 			.getElementsByTagName("blockquote")[0].innerHTML.trim();
-	
-	$.ajax({
+
+	$
+			.ajax({
 				type : "post",
 				async : false, // 同步执行
 				url : "../RunMyStrategy",
@@ -804,9 +843,11 @@ function runmyST(pos) {
 						div.style.display = "block";
 					}
 					div.style.position = "absolute";
-					div.style.top = (document.getElementsByClassName("myst_copy")[pos].offsetTop + 75)
+					div.style.top = (document
+							.getElementsByClassName("myst_copy")[pos].offsetTop + 75)
 							+ "px";
-					div.style.left = (document.getElementsByClassName("myst_copy")[pos].offsetLeft)
+					div.style.left = (document
+							.getElementsByClassName("myst_copy")[pos].offsetLeft)
 							+ "px";
 
 					document.getElementById("backbtn_2").onclick = function() {

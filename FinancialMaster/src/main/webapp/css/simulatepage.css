@@ -186,11 +186,11 @@ li {
 
 .next_page {
 	margin-top: 0px;
-    margin-right: 10px;
-    color: #f18937;
-    cursor: pointer;
-    display: inline-block;
-    opacity: 0.7;
+	margin-right: 10px;
+	color: #f18937;
+	cursor: pointer;
+	display: inline-block;
+	opacity: 0.7;
 }
 
 .next_page:hover {
@@ -199,16 +199,16 @@ li {
 
 .pages_each {
 	width: 22px;
-    height: 22x;
-    font-size: 18px;
-    text-align: center;
-    line-height: 20px;
-    border: 1px solid #ddd;
-    color: #f18937;
-    cursor: pointer;
-    display: inline-block;
-    margin-right: 5px;
-    margin-left: 5px;
+	height: 22x;
+	font-size: 18px;
+	text-align: center;
+	line-height: 20px;
+	border: 1px solid #ddd;
+	color: #f18937;
+	cursor: pointer;
+	display: inline-block;
+	margin-right: 5px;
+	margin-left: 5px;
 }
 
 .pages_each:hover {
@@ -219,4 +219,24 @@ li {
 .active {
 	color: #fff;
 	background-color: #f18937;
+}
+
+.terminal {
+	width: 84px;
+	height: 29px;
+	border-radius: 4px;
+	border: 2px solid #F8B31D;
+	background-color: #F8B31D;
+	color: #fff;
+	font-size: 14px;
+	line-height: 29px;
+	text-align: center;
+	float: right;
+	cursor: pointer;
+	margin-top: -3px;
+}
+
+.terminal:hover {
+	background-color: #fff2d3;
+	color: #F8B31D
 }

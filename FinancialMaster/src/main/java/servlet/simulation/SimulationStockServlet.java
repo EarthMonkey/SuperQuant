@@ -62,8 +62,8 @@ public class SimulationStockServlet extends HttpServlet {
 					"','price':'" + simulationStockVO.getPrice() + 
 					"','number':'"+ simulationStockVO.getNumber() + 
 					"','now':'"+simulationStockVO.getNow() + 
-					"','sum':'"+sum + 
-					"','profitability':" + simulationStockVO.getProfitability()
+					"','sum':"+sum + 
+					",'profitability':" + simulationStockVO.getProfitability()
 					+ "},";
 		}
 		data += "]";

@@ -8,10 +8,9 @@ var iBase = {
 var currentPage = 1; // 当前页数
 var allPages; // 所有持仓
 
-var stprofits = 0;   // 策略盈利
-var stockprofits = 0;  // 非策略盈利
-var hisprofits = 0;  // 历史交易记录
-
+var stprofits = 0; // 策略盈利
+var stockprofits = 0; // 非策略盈利
+var hisprofits = 0; // 历史交易记录
 
 // 关闭块
 function closeST(elem_id) {
@@ -373,7 +372,7 @@ function initHis() {
 										|| result[i].deal == "ST_Sell") {
 									div.getElementsByClassName("syb_buy")[0].innerHTML = "卖";
 									BorS = "+";
-									
+
 									hisprofits += result[i].money;
 								} else {
 									hisprofits -= result[i].money;
@@ -455,10 +454,11 @@ function initStocks() {
 							setStocks(result[i]);
 						}
 					}
-					
+
 					// 累计盈利
 					for (var i = 0; i < result.length; i++) {
-						stockprofits += parseDouble(result[i].sum);
+						alert(result[i].sum)
+						stockprofits += result[i].sum;
 					}
 				}
 			},
@@ -578,7 +578,9 @@ function initSTprofits() {
 	if (userId != "null") {
 		document.getElementsByClassName("noHis_tip")[1].style.display = "none";
 
-		$.ajax({type : "get",
+		$
+				.ajax({
+					type : "get",
 					async : false, // 同步执行
 					url : "../SimulationStrategy",
 					dataType : "json",
@@ -604,8 +606,17 @@ function initSTprofits() {
 									spans[1].style.color = "#186b03";
 								}
 
+								var a = document.createElement("a");
+								a.innerHTML = result[i].id;
+								a.style.display = "none";
+								div.appendChild(a);
+
+								div.getElementsByClassName("terminal")[0].onclick = function() {
+									Terminal(this);
+								}
+
 								parent.appendChild(div);
-								
+
 								stprofits += result[i].profitability;
 							}
 
@@ -619,6 +630,29 @@ function initSTprofits() {
 					}
 				});
 	}
+}
+
+function Terminal(node) {
+
+	var id = node.parentNode.getElementsByTagName("a")[0].innerHTML;
+
+	$.ajax({
+		type : "post",
+		async : false, // 同步执行
+		url : "../SimulationStrategyServlet",
+		data : {
+			"Order" : "End",
+			"id" : id,
+		},
+		dataType : "json",
+		success : function(result) {
+			slidein(0, "终止成功");
+			setTimeout("window.location.reload()", 1800);
+		},
+		error : function(errorMsg) {
+			alert("终止失败");
+		}
+	});
 }
 
 function setProfit() {
