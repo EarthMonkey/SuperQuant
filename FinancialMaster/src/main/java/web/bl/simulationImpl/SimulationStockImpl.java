@@ -97,7 +97,6 @@ public class SimulationStockImpl implements SimulationStockInfo {
 		SimulationDataService simulationDataService=new SimulationData();
 		int code=Integer.parseInt(id);
 		Simulation simulation=simulationDataService.getById(code);
-		simulationDataService.remove(code);
 		
 		SimulationProfitDataService simulationProfitDataService=new SimulationProfitData();
 		SimulationProfit simulationProfit=new SimulationProfit();
@@ -108,6 +107,7 @@ public class SimulationStockImpl implements SimulationStockInfo {
 		simulationProfit.setDate(new Date());
 		simulationProfit.setProfit(getResult(code));
 		simulationProfitDataService.persist(simulationProfit);
+		simulationDataService.remove(code);
 		return ManageState.Succeed;
 	}
 
