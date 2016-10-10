@@ -59,7 +59,7 @@ public class SimulationStockImpl implements SimulationStockInfo {
 		StockUpdateInfo stockUpdateInfo=new StockImpl();
 		UpToDateStockPO upToDateMessage=stockUpdateInfo.update(simulation.getStockId());
 		
-		return upToDateMessage.getNow()-simulation.getPrice();
+		return (upToDateMessage.getNow()-simulation.getPrice())*simulation.getVolume();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class SimulationStockImpl implements SimulationStockInfo {
 		StockDataService stockDataService=new StockData();
 		String[][] result=new String[0][0];
 		try {
-			List<TradeRecord> records=stockDataService.getStockRecord(id, startTime, endTime);
+			List<TradeRecord> records=stockDataService.getStockRecord(simulation.getStockId(), startTime, endTime);
 			int size=records.size();
 			result=new String[size][2];
 			int index=size-1;
