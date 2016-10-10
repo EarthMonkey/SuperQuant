@@ -212,6 +212,7 @@ li {
 			<%
 				}
 			%>
+			
 			<nav>
 			<ul class="pagination" style="display: block;">
 				<li><a onclick=previousPage() aria-label="Previous"> <span
@@ -228,6 +229,7 @@ li {
 				</a></li>
 			</ul>
 			</nav>
+			
 		</div>
 	</div>
 
@@ -304,15 +306,13 @@ li {
 		pieChart('总成交额', <%=list.getTurnover()%>, 0, 1, 18, 'a'+(3*<%=i%>+1+''), '#4A433B')
 		pieChart('流入资金量', <%=list.getInflows()%>, 0, 1, 18, 'a'+(3*<%=i%>+2+''), '#4E58B5')
 	 <%}%>
-	</script>
 
-	<script type="text/javascript">
 	$(".business-rank").on("click", ".business-list", function() {
 		$(this).children(".business-extend").slideToggle();
 	});
 	
-	function jump(i){
-		var name = "b"+(i+"");	
+	function jump(i) {
+		var name = "b"+ ( i + "" );	
 		$.ajax({
 			type : "get",
 			async : false, // 同步执行
@@ -327,12 +327,8 @@ li {
 			error : function(errorMsg) {
 				alert("不好意思，请求数据失败啦!");
 			}
-		})
+		});
 	}
 </script>
 </body>
-
-
-
-
 </html>
