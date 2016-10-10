@@ -47,10 +47,14 @@ public class SimulationStockServlet extends HttpServlet {
 		String userID = userVO.getUsername();
 		SimulationStockInfo simulationStockInfo = new SimulationStockImpl();
 		ArrayList<SimulationStockVO> simulationStockVOs = simulationStockInfo.getStockList(userID);
+		double sum=0;
 		String data = "[";
 		for (SimulationStockVO simulationStockVO : simulationStockVOs) {
 			String stockID=simulationStockVO.getStockID();
 			Stock stock=InitFactoryServlet.getStock(stockID);
+			
+			sum=simulationStockVO.getPrice()*simulationStockVO.getNumber()+simulationStockVO.getProfitability();
+			
 			data += "{'id':'" + simulationStockVO.getId() + 
 					"','stockID':'" + stockID + 
 					"','stockName':'" + stock.getStockName() + 
@@ -58,6 +62,7 @@ public class SimulationStockServlet extends HttpServlet {
 					"','price':'" + simulationStockVO.getPrice() + 
 					"','number':'"+ simulationStockVO.getNumber() + 
 					"','now':'"+simulationStockVO.getNow() + 
+					"','sum':'"+sum + 
 					"','profitability':" + simulationStockVO.getProfitability()
 					+ "},";
 		}
