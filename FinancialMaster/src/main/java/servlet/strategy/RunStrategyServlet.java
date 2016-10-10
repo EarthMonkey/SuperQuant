@@ -96,7 +96,9 @@ public class RunStrategyServlet extends HttpServlet {
 		StrategyHandleService strategyHandleService = new StrategyHandle();
 
 		profitPOs = strategyHandleService.handle(arrayList_buy, arrayList_sold);
-		String data = "[]";
+		int l=profitPOs.size();
+		profitPO profitPO =profitPOs.get(l-1);
+		String data = "[{'profit':" + profitPO.getProfit() + "}]";
 
 		JSONArray json = new JSONArray(data);
 		PrintWriter out = response.getWriter();
