@@ -576,8 +576,7 @@ function initSTprofits() {
 	if (userId != "null") {
 		document.getElementsByClassName("noHis_tip")[1].style.display = "none";
 
-		$
-				.ajax({
+		$.ajax({
 					type : "get",
 					async : false, // 同步执行
 					url : "../SimulationStrategy",
@@ -624,7 +623,7 @@ function initSTprofits() {
 						}
 					},
 					error : function(errorMsg) {
-						alert("对不起，策略累计盈亏数据请求失败!");
+						alert("策略累计盈亏数据请求失败");
 					}
 				});
 	}

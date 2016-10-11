@@ -130,16 +130,13 @@
 	</div>
 	
 	<div class="tab_title">
-		<div class="tab_each" style="border-bottom: 3px solid #f8b31d;" onclick="changeTab(0)">分时</div>
-		<div class="tab_each" onclick="changeTab(1)">日K</div>
-		<div class="tab_each">周K</div>
-		<div class="tab_each">月K</div>
+		<div class="tab_each" style="border-bottom: 3px solid #f8b31d; cursor: default;">日K</div>
 	</div>
 	
-	<div id="timeSharingDiagram" class="kline_div" style="height: 400px;"></div>
+	<div id="timeSharingDiagram" class="kline_div" style="height: 400px; display: none;"></div>
 
 	<!-- k线图 -->
-	<div id="klinechart" class="kline_div" style="display: none;"></div>
+	<div id="klinechart" class="kline_div"></div>
 
 	<blockquote class="quotelbl">
 		<span class="headtext">近期走势图</span>
