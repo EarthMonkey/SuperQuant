@@ -88,7 +88,9 @@ public class UpToDateStocksUpdate implements Runnable{
 				Thread.sleep(100000);
 				for(int i=0;i<exchanges.length;i++){
 					try {
-						arrayLists[i]=getToDateStockPOs(exchanges[i]);
+						ArrayList<UpToDateStockPO> arrayList=getToDateStockPOs(exchanges[i]);
+						if(arrayList.size()>0)
+						    arrayLists[i]=arrayList;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

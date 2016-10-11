@@ -39,7 +39,7 @@ public class GetBenchTimeSharingServlet extends HttpServlet {
 		String[][] datas=benchInfo.getTimeSharingData(benchName);
 				
 		String data="[";
-		for(int i=datas.length-1;i>=0;i--){
+		for(int i=0;i<datas.length;i++){
 			data=data+"{'date':'"+datas[i][0]+
 					"','data':"+datas[i][1]+
 					"},";
