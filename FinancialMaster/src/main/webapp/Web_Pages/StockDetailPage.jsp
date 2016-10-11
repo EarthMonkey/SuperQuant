@@ -133,8 +133,6 @@
 		<div class="tab_each" style="border-bottom: 3px solid #f8b31d; cursor: default;">日K</div>
 	</div>
 	
-	<div id="timeSharingDiagram" class="kline_div" style="height: 400px; display: none;"></div>
-
 	<!-- k线图 -->
 	<div id="klinechart" class="kline_div"></div>
 
@@ -286,7 +284,6 @@
 	<script type="text/javascript" src="../jschart/TimeSharingDiagram.js"></script>
 	<script type="text/javascript">
 		getKLine("stock");
-		getTimeSharingDiagram("stock");
 	</script>
 	<script src="../jschart/StockHistoryChart.js"></script>
 	<script src="../jschart/Dashboard.js"></script>
